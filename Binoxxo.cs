@@ -33,6 +33,36 @@ namespace Binoxxo_Solver
             }
         }
 
+        public int?[] GetRow(int index)
+        {
+            index = index / size * size;
+            int?[] row = new int?[size];
+
+            int j = 0;
+            for (int i = index; i < (index + size); i++)
+            {
+                row[j] = Get(i);
+                j++;
+            }
+
+            return row;
+        }
+
+        public int?[] GetColumn(int index)
+        {
+            index = index % size;
+            int?[] row = new int?[size];
+
+            int j = 0;
+            for  (int i = index; i < GetCountFields(); i += size)
+            {
+                row[j] = Get(i);
+                j++;
+            }
+
+            return row;
+        }
+
         public void Set(int index, int value)
         {
             game[index] = value;
