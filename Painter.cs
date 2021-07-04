@@ -5,11 +5,6 @@ namespace Binoxxo_Solver
 {
     class Painter
     {
-        public static void Paint(string s)
-        {
-            Console.WriteLine(s);
-        }
-
         public void ContinuousPaintBinoxxo(object param)
         {
             Binoxxo binoxxo = (Binoxxo)param;

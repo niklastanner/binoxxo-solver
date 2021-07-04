@@ -51,7 +51,7 @@ namespace Binoxxo_Solver
                 Console.WriteLine("I am way too dumb to solve this binoxxo\n");
             }
 
-            Painter.Paint(binoxxo.PrintBinoxxo());
+            Console.WriteLine(binoxxo.PrintBinoxxo());
         }
 
         private void WaitForAllThreads(int lifespan)
