@@ -6,30 +6,46 @@ namespace Binoxxo_Solver
     {
         public static Binoxxo CreateBinoxxo()
         {
-            Console.WriteLine("Reading Binoxxo from user input");
-            Console.Write("Line 1: ");
-            string input = Console.ReadLine();
-            char[] line = input.ToCharArray();
-            int?[] init = new int?[(int)Math.Pow(line.Length, 2)];
-            int gameSize = line.Length;
-            int fullSize = init.Length;
-            bool first = true;
+            string input = "";
+            char[] line = new char[0];
+            int?[] init = new int?[0];
+            int gameSize = -1;
+            int fullSize = -1;
 
+            while (gameSize % 2 != 0)
+            {
+                if (gameSize < 0)
+                {
+                    Console.WriteLine("Reading Binoxxo from user input");
+                } else
+                {
+                    Console.WriteLine("Invalid length of line");
+                }
+
+                Console.Write("Line 1: ");
+                input = Console.ReadLine();
+                line = input.ToCharArray();
+                init = new int?[(int)Math.Pow(line.Length, 2)];
+                gameSize = line.Length;
+                fullSize = init.Length;
+            }
+
+            bool first = true;
             for (int i = 0; i < fullSize; i += gameSize)
             {
-                if (first)
-                {
-                    first = false;
-                }
-                else
-                {
-                    Console.Write("Line {0}: ", i / gameSize + 1);
-                    input = Console.ReadLine();
-                    line = input.ToCharArray();
-                }
-
                 try
                 {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        Console.Write("Line {0}: ", i / gameSize + 1);
+                        input = Console.ReadLine();
+                        line = input.ToCharArray();
+                    }
+
                     if (input.Length == gameSize)
                     {
                         for (int j = 0; j < gameSize; j++)

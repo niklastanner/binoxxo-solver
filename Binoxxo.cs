@@ -68,7 +68,7 @@ namespace Binoxxo_Solver
             int?[] row = new int?[size];
 
             int j = 0;
-            for  (int i = index; i < GetCountFields(); i += size)
+            for (int i = index; i < GetCountFields(); i += size)
             {
                 row[j] = Get(i);
                 j++;
@@ -106,7 +106,7 @@ namespace Binoxxo_Solver
             string line = "";
             string separator = "";
 
-            for (int i = 0; i < (size + 2); i++)
+            for (int i = 0; i < ((size + 2) * 2 - 1); i++)
             {
                 separator += "-";
             }
@@ -119,10 +119,10 @@ namespace Binoxxo_Solver
                 {
                     line += "|";
                 }
-                line += GetChar(i) == null ? "_" : GetChar(i);
+                line += GetChar(i) == null ? " _" : " " + GetChar(i);
                 if (i % size == (size - 1))
                 {
-                    line += "|";
+                    line += " |";
                     Console.WriteLine(line);
                     line = "";
                 }
