@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Binoxxo_Solver
+﻿namespace Binoxxo_Solver
 {
     class Program
     {
         static void Main(string[] args)
         {
+            Binoxxo binoxxo = Factory.CreateBinoxxo();
+
+            binoxxo.PrintBinoxxo();
         }
     }
 }
