@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{77C676D2-0FE0-4727-975B-22E406324BC2}</ProjectGuid>
+    <ProjectGuid>{84C5266B-3534-449D-AA8C-22E316BE0728}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Binoxxo_Solver</RootNamespace>
     <AssemblyName>Binoxxo Solver</AssemblyName>
