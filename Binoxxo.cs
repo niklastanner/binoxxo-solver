@@ -5,10 +5,12 @@ namespace Binoxxo_Solver
     class Binoxxo
     {
         private int?[] game;
+        public readonly int size;
 
         public Binoxxo(int?[] init)
         {
             game = init;
+            size = (int)Math.Sqrt(game.Length);
         }
 
         public int? Get(int index)
@@ -36,19 +38,14 @@ namespace Binoxxo_Solver
             game[index] = value;
         }
 
-        private int GetGameSize()
-        {
-            return (int)Math.Sqrt(GetCountFields());
-        }
-
         private int GetCountFields()
         {
-            return game.Length;
+            return (int)Math.Pow(size, 2);
         }
 
         public void PrintBinoxxo()
         {
-            int size = GetGameSize();
+            int size = this.size;
 
             string line = "";
             string separator = "";

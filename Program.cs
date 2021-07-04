@@ -6,7 +6,8 @@
         {
             Binoxxo binoxxo = Factory.CreateBinoxxo();
 
-            binoxxo.PrintBinoxxo();
+            Solver solver = new Solver(binoxxo);
+            solver.Solve();
         }
     }
 }
