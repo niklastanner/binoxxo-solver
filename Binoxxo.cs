@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Binoxxo_Solver
 {
@@ -48,6 +49,19 @@ namespace Binoxxo_Solver
             return row;
         }
 
+        public List<int?[]> GetAllRows()
+        {
+            List<int?[]> rows = new List<int?[]>();
+
+            for (int i = 0; i < size; i++)
+            {
+                int index = i * size;
+                rows.Add(GetRow(index));
+            }
+
+            return rows;
+        }
+
         public int?[] GetColumn(int index)
         {
             index = index % size;
@@ -61,6 +75,18 @@ namespace Binoxxo_Solver
             }
 
             return row;
+        }
+
+        public List<int?[]> GetAllColumns()
+        {
+            List<int?[]> columns = new List<int?[]>();
+
+            for (int i = 0; i < size; i++)
+            {
+                columns.Add(GetColumn(i));
+            }
+
+            return columns;
         }
 
         public void Set(int index, int value)
