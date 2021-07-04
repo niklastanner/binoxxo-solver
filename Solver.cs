@@ -109,8 +109,8 @@ namespace Binoxxo_Solver
                 int countX = 0;
                 foreach (int l in row)
                 {
-                    countO = l == 0 ? countO++ : 0;
-                    countX = l == 1 ? countX++ : 0;
+                    countO = l == 0 ? ++countO : 0;
+                    countX = l == 1 ? ++countX : 0;
                     if (countO > 2 || countX > 2) { return false; }
                 }
             }
@@ -125,8 +125,8 @@ namespace Binoxxo_Solver
                 int countX = 0;
                 foreach (int l in column)
                 {
-                    countO = l == 0 ? countO++ : 0;
-                    countX = l == 1 ? countX++ : 0;
+                    countO = l == 0 ? ++countO : 0;
+                    countX = l == 1 ? ++countX : 0;
                     if (countO > 2 || countX > 2) { return false; }
                 }
             }
