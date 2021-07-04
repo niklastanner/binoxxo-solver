@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 
 namespace Binoxxo_Solver
@@ -18,7 +19,7 @@ namespace Binoxxo_Solver
 
         public void Solve()
         {
-            Console.WriteLine("Trying to solve the following Sudoku:");
+            Console.WriteLine("Trying to solve the following Binoxxo:");
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -48,10 +49,7 @@ namespace Binoxxo_Solver
             foreach (Thread thread in threads)
             {
                 Stopwatch timeout = Stopwatch.StartNew();
-                if (!thread.Join(lifespan))
-                {
-                    break;
-                }
+                if (!thread.Join(lifespan)) { break; }
                 timeout.Stop();
                 lifespan -= (int)timeout.ElapsedMilliseconds;
             }
@@ -62,16 +60,67 @@ namespace Binoxxo_Solver
         {
             for (int i = 0; i < binoxxo.size; i++)
             {
-                if (binoxxo.Get(i) == null)
-                {
-                    return false;
-                }
+                if (binoxxo.Get(i) == null) { return false; }
             }
             return true;
         }
 
         public bool ValidateBinoxxo()
         {
+            if (!IsSolved()) { return false; }
+
+            List<int?[]> rows = binoxxo.GetAllRows();
+            List<int?[]> columns = binoxxo.GetAllColumns();
+
+            // Check uniqueness of each row and column
+            for (int i = 0; i < rows.Count; i++)
+            {
+                for (int j = i + 1; j < rows.Count; j++)
+                {
+                    if (rows[i].SequenceEqual(rows[j])) { return false; }
+                }
+
+                foreach (int?[] column in columns)
+                {
+                    if (rows[i].SequenceEqual(column)) { return false; }
+                }
+            }
+
+            // Check for other rules
+            int requiredCount = binoxxo.size / 2;
+            foreach (int?[] row in rows)
+            {
+                // Check for equal distribution of X and O
+                int count = row.Count(e => e == 0);
+                if (count != requiredCount) { return false; }
+
+                // Check for pairs
+                int countO = 0;
+                int countX = 0;
+                foreach (int l in row)
+                {
+                    countO = l == 0 ? countO++ : 0;
+                    countX = l == 1 ? countX++ : 0;
+                    if (countO > 2 || countX > 2) { return false; }
+                }
+            }
+            foreach (int?[] column in columns)
+            {
+                // Check for equal distribution of X and O
+                int count = column.Count(e => e == 0);
+                if (count != requiredCount) { return false; }
+
+                // Check for pairs
+                int countO = 0;
+                int countX = 0;
+                foreach (int l in column)
+                {
+                    countO = l == 0 ? countO++ : 0;
+                    countX = l == 1 ? countX++ : 0;
+                    if (countO > 2 || countX > 2) { return false; }
+                }
+            }
+
             return true;
         }
         #endregion
