@@ -99,19 +99,19 @@ namespace Binoxxo_Solver
             return (int)Math.Pow(size, 2);
         }
 
-        public void PrintBinoxxo()
+        public string PrintBinoxxo()
         {
             int size = this.size;
 
             string line = "";
             string separator = "";
+            string output = "";
 
             for (int i = 0; i < ((size + 2) * 2 - 1); i++)
             {
                 separator += "-";
             }
-
-            Console.WriteLine(separator);
+            output += separator + "\n";
 
             for (int i = 0; i < GetCountFields(); i++)
             {
@@ -123,11 +123,12 @@ namespace Binoxxo_Solver
                 if (i % size == (size - 1))
                 {
                     line += " |";
-                    Console.WriteLine(line);
+                    output += line + "\n";
                     line = "";
                 }
             }
-            Console.WriteLine(separator);
+            output += separator + "\n";
+            return output;
         }
     }
 }

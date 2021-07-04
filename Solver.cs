@@ -19,17 +19,27 @@ namespace Binoxxo_Solver
 
         public void Solve()
         {
-            Console.WriteLine("Trying to solve the following Binoxxo:");
+            Console.WriteLine("Trying to solve the following Binoxxo:\n");
+            Thread painter = new Thread(new Painter().ContinuousPaintBinoxxo);
+            painter.Start(binoxxo);
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            // Do the solver thing
+            Worker worker = new Worker();
+            threads.Add(new Thread(worker.Run));
+            threads.Add(new Thread(worker.Run));
+            threads[0].IsBackground = true;
+            threads[1].IsBackground = true;
+            threads[0].Start(binoxxo.GetAllRows());
+            threads[1].Start(binoxxo.GetAllColumns());
 
             WaitForAllThreads(lifespan);
+            painter.Abort();
 
             stopWatch.Stop();
             TimeSpan ts = stopWatch.Elapsed;
+            Console.Clear();
             Console.WriteLine("\nRunTime {0}.{1:D3} Seconds", ts.Seconds, ts.Milliseconds);
 
             if (ValidateBinoxxo())
@@ -41,7 +51,7 @@ namespace Binoxxo_Solver
                 Console.WriteLine("I am way too dumb to solve this binoxxo\n");
             }
 
-            binoxxo.PrintBinoxxo();
+            Painter.Paint(binoxxo.PrintBinoxxo());
         }
 
         private void WaitForAllThreads(int lifespan)
@@ -56,7 +66,7 @@ namespace Binoxxo_Solver
         }
 
         #region Validation Methods
-        public bool IsSolved()
+        public static bool IsSolved()
         {
             for (int i = 0; i < binoxxo.size; i++)
             {
@@ -65,7 +75,7 @@ namespace Binoxxo_Solver
             return true;
         }
 
-        public bool ValidateBinoxxo()
+        public static bool ValidateBinoxxo()
         {
             if (!IsSolved()) { return false; }
 
