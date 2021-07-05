@@ -65,6 +65,23 @@ namespace Binoxxo_Solver
             }
         }
 
+        #region Support Methods
+        public static List<List<Field>> GetAllRows()
+        {
+            return binoxxo.GetAllRows();
+        }
+
+        public static List<List<Field>> GetAllColumns()
+        {
+            return binoxxo.GetAllColumns();
+        }
+
+        public static int CompareLines(List<Field> list1, List<Field> list2)
+        {
+            return binoxxo.CompareLines(list1, list2);
+        }
+        #endregion
+
         #region Validation Methods
         public static bool IsSolved()
         {

@@ -104,6 +104,21 @@ namespace Binoxxo_Solver
             return Array.IndexOf(game, field);
         }
 
+        // Returns number of mismatches (0 if identical)
+        public int CompareLines(List<Field> list1, List<Field> list2)
+        {
+            int errors = 0;
+            for (int i = 0; i < list1.Count; i++)
+            {
+                if(list1[i].value != list2[i].value)
+                {
+                    errors++;
+                }
+            }
+
+            return errors;
+        }
+
         public string PrintBinoxxo()
         {
             int size = this.size;

@@ -16,6 +16,7 @@ namespace Binoxxo_Solver
                     CheckPairs(tuple);
                     FillGaps(tuple);
                     CompleteLine(tuple);
+                    PreventIdenticalLines(tuple);
                 }
             } while (!Solver.IsSolved());
         }
@@ -93,6 +94,32 @@ namespace Binoxxo_Solver
                 foreach (Field f in tuple)
                 {
                     if (f.value == null) { f.value = 0; }
+                }
+            }
+        }
+        #endregion
+
+        #region Prevent Identical Lines
+        private void PreventIdenticalLines(List<Field> tuple)
+        {
+            if (tuple.Count(e => e.value == null) != 2) { return; }
+
+            PreventIdenticalLinesIterator(tuple, Solver.GetAllColumns());
+            PreventIdenticalLinesIterator(tuple, Solver.GetAllRows());
+        }
+
+        private void PreventIdenticalLinesIterator(List<Field> tuple, List<List<Field>> compareTo)
+        {
+            foreach (List<Field> line in compareTo)
+            {
+                if (line.Count(e => e.value == null) != 0) { continue; }
+
+                if (Solver.CompareLines(tuple, line) == 2)
+                {
+                    for (int i = 0; i < tuple.Count; i++)
+                    {
+                        if (tuple[i].value == null) { tuple[i].value = 1 - line[i].value; }
+                    }
                 }
             }
         }
