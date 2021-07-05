@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Binoxxo_Solver
 {
@@ -15,6 +17,7 @@ namespace Binoxxo_Solver
                 {
                     CheckPairs(tuple);
                     FillGaps(tuple);
+                    PreventTriplets(tuple);
                     CompleteLine(tuple);
                     PreventIdenticalLines(tuple);
                 }
@@ -73,6 +76,65 @@ namespace Binoxxo_Solver
         }
         #endregion
 
+        #region Prevent Triplets
+        // 1. _X__OX -> OX__OX
+        // 2. XO__X_
+        private void PreventTriplets(List<Field> tuple)
+        {
+            if (tuple.Count(e => e.value == null) != 3) { return; }
+            if (GetNullMargin(tuple, 3) != 4) { return; }
+            if (!AreDoubleNullSurrounded(tuple)) { return; }
+
+            for (int i = 0; i < tuple.Count; i++)
+            {
+                if (tuple[i].value == null)
+                {
+                    if (tuple[i + 1].value != null)
+                    {
+                        tuple[i].value = tuple[i + 4].value;  // Case 1
+                        break;
+                    }
+                    else
+                    {
+                        tuple[i + 3].value = tuple[i - 1].value;  // Case 2
+                        break;
+                    }
+                }
+            }
+        }
+
+        private int GetNullMargin(List<Field> tuple, int nullCount)
+        {
+            int margin = 0;
+            int count = 0;
+            foreach (Field f in tuple)
+            {
+                if (f.value == null || margin > 0) { margin++; }
+                if (f.value == null) { count++; }
+                if (count == nullCount) { break; }
+            }
+
+            return margin;
+        }
+
+        private bool AreDoubleNullSurrounded(List<Field> tuple)
+        {
+            int count = 0;
+            for (int i = 0; i < tuple.Count; i++)
+            {
+                count = tuple[i].value == null ? ++count : 0;
+                if (count == 2)
+                {
+                    if ((i - 2) < 0 || (i + 1) >= tuple.Count) { return false; }
+                    else if (tuple[i - 2].value == null || tuple[i + 1].value == null) { return false; }
+                    else { return true; }
+                }
+            }
+
+            return false;
+        }
+        #endregion
+
         #region Complete Line
         // Complete Row only missing one value
         private void CompleteLine(List<Field> tuple)
@@ -116,9 +178,16 @@ namespace Binoxxo_Solver
 
                 if (Solver.CompareLines(tuple, line) == 2)
                 {
+                    List<int> indexes = new List<int>();
                     for (int i = 0; i < tuple.Count; i++)
                     {
-                        if (tuple[i].value == null) { tuple[i].value = 1 - line[i].value; }
+                        if (tuple[i].value == null) { indexes.Add(i); }
+                    }
+
+                    if (tuple[indexes[0]].value != tuple[indexes[1]].value)
+                    {
+                        tuple[indexes[0]].value = 1 - line[indexes[0]].value;
+                        tuple[indexes[1]].value = 1 - line[indexes[1]].value;
                     }
                 }
             }
