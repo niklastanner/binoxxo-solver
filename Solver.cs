@@ -68,9 +68,9 @@ namespace Binoxxo_Solver
         #region Validation Methods
         public static bool IsSolved()
         {
-            for (int i = 0; i < binoxxo.size; i++)
+            for (int i = 0; i < Math.Pow(binoxxo.size, 2); i++)
             {
-                if (binoxxo.Get(i) == null) { return false; }
+                if (binoxxo.Get(i).value == null) { return false; }
             }
             return true;
         }
