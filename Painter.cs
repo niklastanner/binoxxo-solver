@@ -10,10 +10,18 @@ namespace Binoxxo_Solver
             Binoxxo binoxxo = (Binoxxo)param;
             int left = Console.CursorLeft;
             int top = Console.CursorTop;
-            while (true)
+            try
             {
-                Console.WriteLine(binoxxo.PrintBinoxxo());
-                Console.SetCursorPosition(left, top);
+                Console.CursorVisible = false;
+                while (true)
+                {
+                    Console.WriteLine(binoxxo.PrintBinoxxo());
+                    Console.SetCursorPosition(left, top);
+                }
+            }
+            finally
+            {
+                Console.CursorVisible = true;
             }
         }
     }
