@@ -19,6 +19,7 @@ namespace Binoxxo_Solver
 
         public void Solve()
         {
+            Console.Clear();
             Console.WriteLine("Trying to solve the following Binoxxo:\n");
             Thread painter = new Thread(new Painter().ContinuousPaintBinoxxo);
             painter.Start(binoxxo);

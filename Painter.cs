@@ -8,12 +8,12 @@ namespace Binoxxo_Solver
         public void ContinuousPaintBinoxxo(object param)
         {
             Binoxxo binoxxo = (Binoxxo)param;
+            int left = Console.CursorLeft;
+            int top = Console.CursorTop;
             while (true)
             {
-                Console.Clear();
-                Console.WriteLine("Trying to solve binoxxo:");
                 Console.WriteLine(binoxxo.PrintBinoxxo());
-                Thread.Sleep(100);
+                Console.SetCursorPosition(left, top);
             }
         }
     }
