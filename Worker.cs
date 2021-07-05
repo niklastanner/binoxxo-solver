@@ -18,6 +18,7 @@ namespace Binoxxo_Solver
                     CheckPairs(tuple);
                     FillGaps(tuple);
                     PreventTriplets(tuple);
+                    EqualizeXAndO(tuple);
                     CompleteLine(tuple);
                     PreventIdenticalLines(tuple);
                 }
@@ -132,6 +133,30 @@ namespace Binoxxo_Solver
             }
 
             return false;
+        }
+        #endregion
+
+        #region Equalize X and O
+        // _X__XX -> OXOOXX
+        private void EqualizeXAndO(List<Field> tuple)
+        {
+            if (tuple.Count(e => e.value == null) > 0)
+            {
+                if ((tuple.Count(e => e.value == 0) * 2) == tuple.Count)
+                {
+                    foreach (Field f in tuple)
+                    {
+                        if (f.value == null) { f.value = 1; }
+                    }
+                }
+                else if ((tuple.Count(e => e.value == 1) * 2) == tuple.Count)
+                {
+                    foreach (Field f in tuple)
+                    {
+                        if (f.value == null) { f.value = 0; }
+                    }
+                }
+            }
         }
         #endregion
 
