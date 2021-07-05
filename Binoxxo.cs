@@ -99,6 +99,11 @@ namespace Binoxxo_Solver
             return (int)Math.Pow(size, 2);
         }
 
+        public int GetIndexOfField(Field field)
+        {
+            return Array.IndexOf(game, field);
+        }
+
         public string PrintBinoxxo()
         {
             int size = this.size;

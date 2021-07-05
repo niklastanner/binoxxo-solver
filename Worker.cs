@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Binoxxo_Solver
 {
@@ -14,6 +15,7 @@ namespace Binoxxo_Solver
                 {
                     CheckPairs(tuple);
                     FillGaps(tuple);
+                    CompleteLine(tuple);
                 }
             } while (!Solver.IsSolved());
         }
@@ -65,6 +67,32 @@ namespace Binoxxo_Solver
                 if (value != null && (i + 2) < tuple.Count && tuple[i + 1].value == null && tuple[i + 2].value == value)
                 {
                     tuple[i + 1].value = 1 - value;
+                }
+            }
+        }
+        #endregion
+
+        #region Complete Line
+        // Complete Row only missing one value
+        private void CompleteLine(List<Field> tuple)
+        {
+            int countNull = tuple.Count(e => e.value == null);
+
+            int countO = tuple.Count(e => e.value == 0);
+            if (countNull == 1 && (countO * 2) == tuple.Count)
+            {
+                foreach (Field f in tuple)
+                {
+                    if (f.value == null) { f.value = 1; }
+                }
+            }
+
+            int countX = tuple.Count(e => e.value == 1);
+            if (countNull == 1 && (countX * 2) == tuple.Count)
+            {
+                foreach (Field f in tuple)
+                {
+                    if (f.value == null) { f.value = 0; }
                 }
             }
         }
