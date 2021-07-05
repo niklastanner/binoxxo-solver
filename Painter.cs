@@ -15,8 +15,8 @@ namespace Binoxxo_Solver
                 Console.CursorVisible = false;
                 while (true)
                 {
-                    Console.WriteLine(binoxxo.PrintBinoxxo());
                     Console.SetCursorPosition(left, top);
+                    Console.WriteLine(binoxxo.PrintBinoxxo());
                 }
             }
             finally
