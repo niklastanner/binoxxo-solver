@@ -79,8 +79,8 @@ namespace Binoxxo_Solver
         {
             if (!IsSolved()) { return false; }
 
-            List<int?[]> rows = binoxxo.GetAllRows();
-            List<int?[]> columns = binoxxo.GetAllColumns();
+            List<List<Field>> rows = binoxxo.GetAllRows();
+            List<List<Field>> columns = binoxxo.GetAllColumns();
 
             // Check uniqueness of each row and column
             for (int i = 0; i < rows.Count; i++)
@@ -90,7 +90,7 @@ namespace Binoxxo_Solver
                     if (rows[i].SequenceEqual(rows[j])) { return false; }
                 }
 
-                foreach (int?[] column in columns)
+                foreach (List<Field> column in columns)
                 {
                     if (rows[i].SequenceEqual(column)) { return false; }
                 }
@@ -98,35 +98,35 @@ namespace Binoxxo_Solver
 
             // Check for other rules
             int requiredCount = binoxxo.size / 2;
-            foreach (int?[] row in rows)
+            foreach (List<Field> row in rows)
             {
                 // Check for equal distribution of X and O
-                int count = row.Count(e => e == 0);
+                int count = row.Count(e => e.value == 0);
                 if (count != requiredCount) { return false; }
 
                 // Check for pairs
                 int countO = 0;
                 int countX = 0;
-                foreach (int l in row)
+                foreach (Field l in row)
                 {
-                    countO = l == 0 ? ++countO : 0;
-                    countX = l == 1 ? ++countX : 0;
+                    countO = l.value == 0 ? ++countO : 0;
+                    countX = l.value == 1 ? ++countX : 0;
                     if (countO > 2 || countX > 2) { return false; }
                 }
             }
-            foreach (int?[] column in columns)
+            foreach (List<Field> column in columns)
             {
                 // Check for equal distribution of X and O
-                int count = column.Count(e => e == 0);
+                int count = column.Count(e => e.value == 0);
                 if (count != requiredCount) { return false; }
 
                 // Check for pairs
                 int countO = 0;
                 int countX = 0;
-                foreach (int l in column)
+                foreach (Field l in column)
                 {
-                    countO = l == 0 ? ++countO : 0;
-                    countX = l == 1 ? ++countX : 0;
+                    countO = l.value == 0 ? ++countO : 0;
+                    countX = l.value == 1 ? ++countX : 0;
                     if (countO > 2 || countX > 2) { return false; }
                 }
             }

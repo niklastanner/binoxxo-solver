@@ -5,23 +5,27 @@ namespace Binoxxo_Solver
 {
     class Binoxxo
     {
-        private int?[] game;
+        private readonly Field[] game;
         public readonly int size;
 
         public Binoxxo(int?[] init)
         {
-            game = init;
+            game = new Field[init.Length];
+            for (int i = 0; i < game.Length; i++)
+            {
+                game[i] = new Field(init[i]);
+            }
             size = (int)Math.Sqrt(game.Length);
         }
 
-        public int? Get(int index)
+        public Field Get(int index)
         {
             return game[index];
         }
 
         public string GetChar(int index)
         {
-            switch (Get(index))
+            switch (Get(index).value)
             {
                 case null:
                     return null;
@@ -34,24 +38,22 @@ namespace Binoxxo_Solver
             }
         }
 
-        public int?[] GetRow(int index)
+        public List<Field> GetRow(int index)
         {
             index = index / size * size;
-            int?[] row = new int?[size];
+            List<Field> row = new List<Field>();
 
-            int j = 0;
             for (int i = index; i < (index + size); i++)
             {
-                row[j] = Get(i);
-                j++;
+                row.Add(Get(i));
             }
 
             return row;
         }
 
-        public List<int?[]> GetAllRows()
+        public List<List<Field>> GetAllRows()
         {
-            List<int?[]> rows = new List<int?[]>();
+            List<List<Field>> rows = new List<List<Field>>();
 
             for (int i = 0; i < size; i++)
             {
@@ -62,24 +64,22 @@ namespace Binoxxo_Solver
             return rows;
         }
 
-        public int?[] GetColumn(int index)
+        public List<Field> GetColumn(int index)
         {
             index = index % size;
-            int?[] row = new int?[size];
+            List<Field> row = new List<Field>();
 
-            int j = 0;
             for (int i = index; i < GetCountFields(); i += size)
             {
-                row[j] = Get(i);
-                j++;
+                row.Add(Get(i));
             }
 
             return row;
         }
 
-        public List<int?[]> GetAllColumns()
+        public List<List<Field>> GetAllColumns()
         {
-            List<int?[]> columns = new List<int?[]>();
+            List<List<Field>> columns = new List<List<Field>>();
 
             for (int i = 0; i < size; i++)
             {
@@ -91,7 +91,7 @@ namespace Binoxxo_Solver
 
         public void Set(int index, int value)
         {
-            game[index] = value;
+            game[index].value = value;
         }
 
         private int GetCountFields()

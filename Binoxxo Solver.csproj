@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Binoxxo.cs" />
     <Compile Include="Factory.cs" />
+    <Compile Include="Field.cs" />
     <Compile Include="Painter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
