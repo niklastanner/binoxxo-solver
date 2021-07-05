@@ -13,11 +13,13 @@ namespace Binoxxo_Solver
                 foreach (List<Field> tuple in tuples)
                 {
                     CheckPairs(tuple);
+                    FillGaps(tuple);
                 }
             } while (!Solver.IsSolved());
         }
 
         #region Check Pairs
+        // _XX_ -> OXXO
         private void CheckPairs(List<Field> tuple)
         {
             int countO = 0;
@@ -47,6 +49,22 @@ namespace Binoxxo_Solver
                     {
                         tuple[i + 1].value = 0;
                     }
+                }
+            }
+        }
+        #endregion
+
+        #region Fill Gaps
+        // X_X -> XOX
+        private void FillGaps(List<Field> tuple)
+        {
+            for (int i = 0; i < tuple.Count; i++)
+            {
+                int? value = tuple[i].value;
+
+                if (value != null && (i + 2) < tuple.Count && tuple[i + 1].value == null && tuple[i + 2].value == value)
+                {
+                    tuple[i + 1].value = 1 - value;
                 }
             }
         }
