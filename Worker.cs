@@ -196,8 +196,10 @@ namespace Binoxxo_Solver
             foreach (List<Field> line in compareTo)
             {
                 if (Solver.CountElement(line, null) != 0) { continue; }
+                int nullCount = Solver.CountElement(tuple, null);
+                int differences = Solver.CompareLines(tuple, line);
 
-                if (Solver.CompareLines(tuple, line) == 2)
+                if (nullCount == 2 && differences == 2)
                 {
                     List<int> indexes = new List<int>();
                     for (int i = 0; i < tuple.Count; i++)
@@ -214,7 +216,7 @@ namespace Binoxxo_Solver
 
                 // XOOX    XOOX
                 // _O__ -> _OX_
-                else if (Solver.CompareLines(tuple, line) == 3 && GetNullMargin(tuple, 3) == 4)
+                else if (nullCount == 3 && differences == 3 && GetNullMargin(tuple, 3) == 4)
                 {
                     int index = -1;
                     for (int i = 0; i < tuple.Count; i++)
