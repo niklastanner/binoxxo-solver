@@ -16,7 +16,6 @@ namespace Binoxxo_Solver
                     FillGaps(tuple);
                     PreventTriplets(tuple);
                     EqualizeXAndO(tuple);
-                    CompleteLine(tuple);
                     PreventIdenticalLines(tuple);
                     FarNeighbors(tuple);
                     FarSiblings(tuple);
@@ -127,32 +126,6 @@ namespace Binoxxo_Solver
                     {
                         if (f.value == null) { f.value = 0; }
                     }
-                }
-            }
-        }
-        #endregion
-
-        #region Complete Line
-        // Complete Row only missing one value
-        private void CompleteLine(List<Field> tuple)
-        {
-            int countNull = Solver.CountElement(tuple, null);
-
-            int countO = Solver.CountElement(tuple, 0);
-            if (countNull == 1 && (countO * 2) == tuple.Count)
-            {
-                foreach (Field f in tuple)
-                {
-                    if (f.value == null) { f.value = 1; }
-                }
-            }
-
-            int countX = Solver.CountElement(tuple, 1);
-            if (countNull == 1 && (countX * 2) == tuple.Count)
-            {
-                foreach (Field f in tuple)
-                {
-                    if (f.value == null) { f.value = 0; }
                 }
             }
         }
