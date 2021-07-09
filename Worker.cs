@@ -19,6 +19,7 @@ namespace Binoxxo_Solver
                     CompleteLine(tuple);
                     PreventIdenticalLines(tuple);
                     FarNeighbors(tuple);
+                    FarSiblings(tuple);
                 }
             } while (!Solver.IsSolved());
         }
@@ -257,6 +258,26 @@ namespace Binoxxo_Solver
             if (positions[3] != -1) { tuple[positions[3] + 8].value = 0; }
         }
         #endregion
+
+        #region Far Siblings
+        // O____O -> OX__XO
+        private void FarSiblings(List<Field> tuple)
+        {
+            int countNull = 0;
+            for (int i = 0; i < tuple.Count; i++)
+            {
+                countNull = tuple[i].value == null ? ++countNull : 0;
+                if (countNull == 4 && (i - 4) >= 0 && (i + 1) < tuple.Count)
+                {
+                    if (tuple[i - 4].value == tuple[i + 1].value)
+                    {
+                        tuple[i - 3].value = 1 - tuple[i - 4].value;
+                        tuple[i].value = 1 - tuple[i - 4].value;
+                    }
+                    break;
+                }
+            }
+        }
+        #endregion
     }
 }
-
