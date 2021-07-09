@@ -86,6 +86,43 @@ namespace Binoxxo_Solver
         {
             return tuple.Count(e => e.value == countMe);
         }
+
+        public static int TupleContainsPattern(List<Field> tuple, string pattern)
+        {
+            char[] patternArray = pattern.ToArray();
+            int?[] patternIntArray = new int?[patternArray.Length];
+
+            for (int i = 0; i < patternIntArray.Length; i++)
+            {
+                if (patternArray[i].Equals(' ') || patternArray[i].Equals('_'))
+                {
+                    patternIntArray[i] = null;
+                }
+                else if (patternArray[i].Equals('0') || patternArray[i].Equals('o') || patternArray[i].Equals('O'))
+                {
+                    patternIntArray[i] = 0;
+                }
+                else if (patternArray[i].Equals('1') || patternArray[i].Equals('x') || patternArray[i].Equals('X'))
+                {
+                    patternIntArray[i] = 1;
+                }
+            }
+
+            int arrayPos = 0;
+            for (int i = 0; i < tuple.Count; i++)
+            {
+                if (tuple[i].value == patternIntArray[arrayPos])
+                {
+                    arrayPos++;
+                }
+                if (arrayPos == patternIntArray.Length)
+                {
+                    return i - patternIntArray.Length + 1;
+                }
+            }
+
+            return -1;
+        }
         #endregion
 
         #region Validation Methods

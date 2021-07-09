@@ -18,6 +18,7 @@ namespace Binoxxo_Solver
                     EqualizeXAndO(tuple);
                     CompleteLine(tuple);
                     PreventIdenticalLines(tuple);
+                    FarNeighbors(tuple);
                 }
             } while (!Solver.IsSolved());
         }
@@ -213,6 +214,27 @@ namespace Binoxxo_Solver
                     }
                 }
             }
+        }
+        #endregion
+
+        #region Far Neighbors
+        // O__O__X__O -> OX_O__X__O
+        private void FarNeighbors(List<Field> tuple)
+        {
+            if (Solver.CountElement(tuple, null) != 6) { return; }
+            int countO = Solver.CountElement(tuple, 0);
+            int countX = Solver.CountElement(tuple, 1);
+            if (countO != (countX + 2) && countX != (countO + 2)) { return; }
+            int[] positions = new int[4];
+            positions[0] = Solver.TupleContainsPattern(tuple, "o__o__x__o");
+            positions[1] = Solver.TupleContainsPattern(tuple, "o__x__o__o");
+            positions[2] = Solver.TupleContainsPattern(tuple, "x__x__o__x");
+            positions[3] = Solver.TupleContainsPattern(tuple, "x__o__x__x");
+
+            if (positions[0] != -1) { tuple[positions[0] + 1].value = 1; }
+            if (positions[1] != -1) { tuple[positions[1] + 8].value = 1; }
+            if (positions[2] != -1) { tuple[positions[2] + 1].value = 0; }
+            if (positions[3] != -1) { tuple[positions[3] + 8].value = 0; }
         }
         #endregion
     }
