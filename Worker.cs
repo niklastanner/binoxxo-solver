@@ -184,7 +184,7 @@ namespace Binoxxo_Solver
         #region Prevent Identical Lines
         private void PreventIdenticalLines(List<Field> tuple)
         {
-            if (Solver.CountElement(tuple, null) != 2) { return; }
+            if (Solver.CountElement(tuple, null) != 2 && Solver.CountElement(tuple, null) != 3) { return; }
 
             PreventIdenticalLinesIterator(tuple, Solver.GetAllColumns());
             PreventIdenticalLinesIterator(tuple, Solver.GetAllRows());
@@ -208,6 +208,29 @@ namespace Binoxxo_Solver
                     {
                         tuple[indexes[0]].value = 1 - line[indexes[0]].value;
                         tuple[indexes[1]].value = 1 - line[indexes[1]].value;
+                    }
+                }
+
+                // XOOX    XOOX
+                // _O__ -> _OX_
+                else if (Solver.CompareLines(tuple, line) == 3 && GetNullMargin(tuple, 3) == 4)
+                {
+                    int index = -1;
+                    for (int i = 0; i < tuple.Count; i++)
+                    {
+                        if (tuple[i].value == null)
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+                    if (tuple[index + 1].value == null)
+                    {
+                        tuple[index + 1].value = 1 - line[index + 1].value;
+                    }
+                    else if (tuple[index + 2].value == null)
+                    {
+                        tuple[index + 2].value = 1 - line[index + 2].value;
                     }
                 }
             }
