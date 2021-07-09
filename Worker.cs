@@ -77,58 +77,34 @@ namespace Binoxxo_Solver
         #endregion
 
         #region Prevent Triplets
+        // _X__OX -> OX__OX
         private void PreventTriplets(List<Field> tuple)
         {
             if (Solver.CountElement(tuple, null) != 3) { return; }
-            if (GetNullMargin(tuple, 3) != 4) { return; }
-            if (!AreDoubleNullSurrounded(tuple)) { return; }
 
-            for (int i = 0; i < tuple.Count; i++)
+            int value = Solver.CountElement(tuple, 0) > Solver.CountElement(tuple, 1) ? 1 : 0;
+            int[] indexes = Solver.GetIndexesOf(tuple, null);
+
+            int doubleNullIndex;
+            int singleNullIndex;
+            if ((indexes[0] + 1) == indexes[1])
             {
-                if (tuple[i].value == null)
-                {
-                    if (tuple[i + 1].value != null && (i + 5) < tuple.Count && tuple[i + 4].value != tuple[i + 5].value)
-                    {
-                        tuple[i].value = tuple[i + 4].value;  // _X__OX -> OX__OX
-                    }
-                    else if (tuple[i + 1].value == null && (i - 2) >= 0 && tuple[i - 2].value != tuple[i - 1].value)
-                    {
-                        tuple[i + 3].value = tuple[i - 1].value;  // XO__X_ -> XO__XO
-                    }
-                    break;
-                }
+                doubleNullIndex = indexes[0];
+                singleNullIndex = indexes[2];
             }
-        }
-
-        private int GetNullMargin(List<Field> tuple, int nullCount)
-        {
-            int margin = 0;
-            int count = 0;
-            foreach (Field f in tuple)
+            else
             {
-                if (f.value == null || margin > 0) { margin++; }
-                if (f.value == null) { count++; }
-                if (count == nullCount) { break; }
+                doubleNullIndex = indexes[1];
+                singleNullIndex = indexes[0];
             }
 
-            return margin;
-        }
-
-        private bool AreDoubleNullSurrounded(List<Field> tuple)
-        {
-            int count = 0;
-            for (int i = 0; i < tuple.Count; i++)
+            if ((doubleNullIndex - 1) >= 0 && tuple[doubleNullIndex - 1].value == value)
             {
-                count = tuple[i].value == null ? ++count : 0;
-                if (count == 2)
-                {
-                    if ((i - 2) < 0 || (i + 1) >= tuple.Count) { return false; }
-                    else if (tuple[i - 2].value == null || tuple[i + 1].value == null) { return false; }
-                    else { return true; }
-                }
+                tuple[singleNullIndex].value = value;
             }
-
-            return false;
+            else if ((doubleNullIndex + 2) < tuple.Count && tuple[doubleNullIndex + 2].value == value){
+                tuple[singleNullIndex].value = value;
+            }
         }
         #endregion
 
@@ -201,11 +177,7 @@ namespace Binoxxo_Solver
 
                 if (nullCount == 2 && differences == 2)
                 {
-                    List<int> indexes = new List<int>();
-                    for (int i = 0; i < tuple.Count; i++)
-                    {
-                        if (tuple[i].value == null) { indexes.Add(i); }
-                    }
+                    int[] indexes = Solver.GetIndexesOf(tuple, null);
 
                     if (tuple[indexes[0]].value != tuple[indexes[1]].value)
                     {
@@ -216,7 +188,7 @@ namespace Binoxxo_Solver
 
                 // XOOX    XOOX
                 // _O__ -> _OX_
-                else if (nullCount == 3 && differences == 3 && GetNullMargin(tuple, 3) == 4)
+                else if (nullCount == 3 && differences == 3 && Solver.GetNullMargin(tuple, 3) == 4)
                 {
                     int index = -1;
                     for (int i = 0; i < tuple.Count; i++)

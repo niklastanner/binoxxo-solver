@@ -123,6 +123,35 @@ namespace Binoxxo_Solver
 
             return -1;
         }
+
+        public static int GetNullMargin(List<Field> tuple, int nullCount)
+        {
+            int margin = 0;
+            int count = 0;
+            foreach (Field f in tuple)
+            {
+                if (f.value == null || margin > 0) { margin++; }
+                if (f.value == null) { count++; }
+                if (count == nullCount) { break; }
+            }
+
+            return margin;
+        }
+
+        public static int[] GetIndexesOf(List<Field> tuple, int? value)
+        {
+            int[] indexes = new int[CountElement(tuple, value)];
+            int count = 0;
+            for (int i = 0; i < tuple.Count; i++)
+            {
+                if (tuple[i].value == value)
+                {
+                    indexes[count++] = i;
+                }
+            }
+
+            return indexes;
+        }
         #endregion
 
         #region Validation Methods
