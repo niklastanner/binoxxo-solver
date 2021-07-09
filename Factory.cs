@@ -70,6 +70,12 @@ namespace Binoxxo_Solver
                             }
                             init[i + j] = value;
                         }
+                    } else if (input.Length == 0)
+                    {
+                        for (int j = 0; j < gameSize; j++)
+                        {
+                            init[i + j] = null;
+                        }
                     }
                     else
                     {
