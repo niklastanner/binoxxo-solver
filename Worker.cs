@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Collections.Generic;
 
 namespace Binoxxo_Solver
 {
@@ -82,7 +79,7 @@ namespace Binoxxo_Solver
         // 2. XO__X_
         private void PreventTriplets(List<Field> tuple)
         {
-            if (tuple.Count(e => e.value == null) != 3) { return; }
+            if (Solver.CountElement(tuple, null) != 3) { return; }
             if (GetNullMargin(tuple, 3) != 4) { return; }
             if (!AreDoubleNullSurrounded(tuple)) { return; }
 
@@ -140,16 +137,16 @@ namespace Binoxxo_Solver
         // _X__XX -> OXOOXX
         private void EqualizeXAndO(List<Field> tuple)
         {
-            if (tuple.Count(e => e.value == null) > 0)
+            if (Solver.CountElement(tuple, null) > 0)
             {
-                if ((tuple.Count(e => e.value == 0) * 2) == tuple.Count)
+                if ((Solver.CountElement(tuple, 0) * 2) == tuple.Count)
                 {
                     foreach (Field f in tuple)
                     {
                         if (f.value == null) { f.value = 1; }
                     }
                 }
-                else if ((tuple.Count(e => e.value == 1) * 2) == tuple.Count)
+                else if ((Solver.CountElement(tuple, 1) * 2) == tuple.Count)
                 {
                     foreach (Field f in tuple)
                     {
@@ -164,9 +161,9 @@ namespace Binoxxo_Solver
         // Complete Row only missing one value
         private void CompleteLine(List<Field> tuple)
         {
-            int countNull = tuple.Count(e => e.value == null);
+            int countNull = Solver.CountElement(tuple, null);
 
-            int countO = tuple.Count(e => e.value == 0);
+            int countO = Solver.CountElement(tuple, 0);
             if (countNull == 1 && (countO * 2) == tuple.Count)
             {
                 foreach (Field f in tuple)
@@ -175,7 +172,7 @@ namespace Binoxxo_Solver
                 }
             }
 
-            int countX = tuple.Count(e => e.value == 1);
+            int countX = Solver.CountElement(tuple, 1);
             if (countNull == 1 && (countX * 2) == tuple.Count)
             {
                 foreach (Field f in tuple)
@@ -189,7 +186,7 @@ namespace Binoxxo_Solver
         #region Prevent Identical Lines
         private void PreventIdenticalLines(List<Field> tuple)
         {
-            if (tuple.Count(e => e.value == null) != 2) { return; }
+            if (Solver.CountElement(tuple, null) != 2) { return; }
 
             PreventIdenticalLinesIterator(tuple, Solver.GetAllColumns());
             PreventIdenticalLinesIterator(tuple, Solver.GetAllRows());
@@ -199,7 +196,7 @@ namespace Binoxxo_Solver
         {
             foreach (List<Field> line in compareTo)
             {
-                if (line.Count(e => e.value == null) != 0) { continue; }
+                if (Solver.CountElement(line, null) != 0) { continue; }
 
                 if (Solver.CompareLines(tuple, line) == 2)
                 {

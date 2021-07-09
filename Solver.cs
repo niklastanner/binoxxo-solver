@@ -81,6 +81,11 @@ namespace Binoxxo_Solver
         {
             return binoxxo.CompareLines(list1, list2);
         }
+
+        public static int CountElement(List<Field> tuple, int? countMe)
+        {
+            return tuple.Count(e => e.value == countMe);
+        }
         #endregion
 
         #region Validation Methods
@@ -119,7 +124,7 @@ namespace Binoxxo_Solver
             foreach (List<Field> row in rows)
             {
                 // Check for equal distribution of X and O
-                int count = row.Count(e => e.value == 0);
+                int count = CountElement(row, 0);
                 if (count != requiredCount) { return false; }
 
                 // Check for pairs
@@ -135,7 +140,7 @@ namespace Binoxxo_Solver
             foreach (List<Field> column in columns)
             {
                 // Check for equal distribution of X and O
-                int count = column.Count(e => e.value == 0);
+                int count = CountElement(column, 0);
                 if (count != requiredCount) { return false; }
 
                 // Check for pairs
