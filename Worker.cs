@@ -76,8 +76,6 @@ namespace Binoxxo_Solver
         #endregion
 
         #region Prevent Triplets
-        // 1. _X__OX -> OX__OX
-        // 2. XO__X_
         private void PreventTriplets(List<Field> tuple)
         {
             if (Solver.CountElement(tuple, null) != 3) { return; }
@@ -88,16 +86,15 @@ namespace Binoxxo_Solver
             {
                 if (tuple[i].value == null)
                 {
-                    if (tuple[i + 1].value != null)
+                    if (tuple[i + 1].value != null && (i + 5) < tuple.Count && tuple[i + 4].value != tuple[i + 5].value)
                     {
-                        tuple[i].value = tuple[i + 4].value;  // Case 1
-                        break;
+                        tuple[i].value = tuple[i + 4].value;  // _X__OX -> OX__OX
                     }
-                    else
+                    else if (tuple[i + 1].value == null && (i - 2) >= 0 && tuple[i - 2].value != tuple[i - 1].value)
                     {
-                        tuple[i + 3].value = tuple[i - 1].value;  // Case 2
-                        break;
+                        tuple[i + 3].value = tuple[i - 1].value;  // XO__X_ -> XO__XO
                     }
+                    break;
                 }
             }
         }
