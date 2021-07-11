@@ -79,10 +79,9 @@ namespace Binoxxo_Solver
         // _X__OX -> OX__OX
         private void PreventTriplets(List<Field> tuple)
         {
-            if (Solver.CountElement(tuple, null) != 3) { return; }
-
             int value = Solver.CountElement(tuple, 0) > Solver.CountElement(tuple, 1) ? 1 : 0;
             int[] indexes = Solver.GetIndexesOf(tuple, null);
+            if (indexes.Length != 3) { return; }
 
             int doubleNullIndex;
             int singleNullIndex;
@@ -153,6 +152,7 @@ namespace Binoxxo_Solver
                 if (nullCount == 2 && differences == 2)
                 {
                     int[] indexes = Solver.GetIndexesOf(tuple, null);
+                    if (indexes.Length != 3) { return; }
 
                     if (tuple[indexes[0]].value != tuple[indexes[1]].value)
                     {
@@ -212,18 +212,20 @@ namespace Binoxxo_Solver
         // O____O -> OX__XO
         private void FarSiblings(List<Field> tuple)
         {
-            int countNull = 0;
-            for (int i = 0; i < tuple.Count; i++)
+            int[] indexes = Solver.GetIndexesOf(tuple, null);
+            if (indexes.Length != 4) { return; }
+            if ((indexes[0] + 3) != indexes[3]) { return; }
+
+            int? value;
+            if ((indexes[0] - 1) >= 0 && (indexes[3] + 1) < tuple.Count && tuple[indexes[0] - 1].value == tuple[indexes[3] + 1].value)
             {
-                countNull = tuple[i].value == null ? ++countNull : 0;
-                if (countNull == 4 && (i - 4) >= 0 && (i + 1) < tuple.Count)
+                value = 1 - tuple[indexes[0] - 1].value;
+                int countO = Solver.CountElement(tuple, 0);
+                int countX = Solver.CountElement(tuple, 1);
+                if ((Solver.CountElement(tuple, (1 - value)) - Solver.CountElement(tuple, value)) == 2)
                 {
-                    if (tuple[i - 4].value == tuple[i + 1].value)
-                    {
-                        tuple[i - 3].value = 1 - tuple[i - 4].value;
-                        tuple[i].value = 1 - tuple[i - 4].value;
-                    }
-                    break;
+                    tuple[indexes[0]].value = 1 - tuple[indexes[0] - 1].value;
+                    tuple[indexes[3]].value = 1 - tuple[indexes[0] - 1].value;
                 }
             }
         }
