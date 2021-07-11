@@ -91,17 +91,19 @@ namespace Binoxxo_Solver
                 doubleNullIndex = indexes[0];
                 singleNullIndex = indexes[2];
             }
-            else
+            else if ((indexes[1] + 1) == indexes[2])
             {
                 doubleNullIndex = indexes[1];
                 singleNullIndex = indexes[0];
             }
+            else { return; }
 
             if ((doubleNullIndex - 1) >= 0 && tuple[doubleNullIndex - 1].value == value)
             {
                 tuple[singleNullIndex].value = value;
             }
-            else if ((doubleNullIndex + 2) < tuple.Count && tuple[doubleNullIndex + 2].value == value){
+            else if ((doubleNullIndex + 2) < tuple.Count && tuple[doubleNullIndex + 2].value == value)
+            {
                 tuple[singleNullIndex].value = value;
             }
         }
